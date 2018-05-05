@@ -15,6 +15,6 @@ Cronograma
 
 13 - 14 hs BREAK por almuerzo
 
-14 - 17 hs Taller introductorio a R dirigido por las ingenieras Yanela Strappa y Ana Laura Diedrichs. Se realizará en aula Anexo (entre salón de actos y mesa de entradas).
+14 - 17 hs Taller introductorio a R dirigido por las ingenieras Yanela Strappa y Ana Laura Diedrichs. Aula Anexo (entre salón de actos y mesa de entradas). [Material utilizado en el Taller intro a R](Taller_Intro_R.md)
 
 17 -18 hs cierre / conclusiones
