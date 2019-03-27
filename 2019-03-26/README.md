@@ -9,9 +9,14 @@ Objetivos:
 * Poder realizar un reporte básico para transmitir nuestras conclusiones, usando Rmarkdown
 * Analizar, compartir y extraer conclusiones del dataset procesado de Mujeres Programadoras en Argentina.
 
-[Slides online ](https://docs.google.com/presentation/d/15OhpIbHpo6hT3J5jbWkLVJaa6ap8qfhrwdGYGei0lkk/edit?usp=sharing) 
-[PDF](R-Ladies-2019-03-26.pdf)
 
+[Slides online ](https://docs.google.com/presentation/d/17cmt6ydoq74hgd83H7dKTdqZNZdvHaxDUUbmQxDXBYk/edit?usp=sharing) 
+[PDF](R-Ladies-cuarto-meetup-tidyverse-dplyr.pdf)
+[dataset](Todas.las.carreras27032018.csv)
+[R script using dplyr](mujeres-programadoras.R)
+[Rmarkdown notebook using dplyr](mujeres2.Rmd)
+
+Ana Laura Diedrichs, twitter @anadiedrichs
 
 
 
