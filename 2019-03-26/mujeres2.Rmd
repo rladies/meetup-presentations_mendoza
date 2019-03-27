@@ -1,0 +1,186 @@
+---
+title: "Mujeres Programadoras - Rmarkdown notebook"
+author: "Ana Diedrichs"
+date: "March 19, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+```{r, echo=FALSE,warning=FALSE}
+#Cargamos los paquetes necesarios
+suppressMessages(library(readr))
+suppressMessages(library(dplyr))
+suppressMessages(library(tidyr))
+suppressMessages(library(ggplot2))
+```
+
+## Incluyendo plots y gráficos
+
+Caracteristicas del dataset pressure de ejemplo
+```{r pressure,echo=FALSE}
+summary(pressure)
+```
+Se pueden embeber gráficos u otras salidas y no mostrar el código, por ejemplo:
+```{r , echo=FALSE}
+plot(pressure)
+```
+
+Note que el parámetro `echo = FALSE` fue añadido en el bloque de código para evitar imprimir el código que generaba el plot.
+
+# Análisis Mujeres Programadoras
+
+<!-- este es un comentario en texto, el mismo no será "imprimible", es decir, no será 
+generado este texto cuando presiones el botón Knit (logo ovillo de lana con aguja de tejer)-->
+Cargamos el dataset
+```{r}
+dataset <- suppressMessages(read_csv("Todas.las.carreras27032018.csv"))
+
+```
+Eliminamos valores perdidos (columna X21 con todos NA y filas con valores perdidos)
+```{r}
+dataset <- dataset %>%  
+  select(-one_of("X21")) %>% 
+  filter(complete.cases(.))
+
+```
+## Totales de mujeres y varones por año
+```{r}
+dataset %>% 
+  select(Año,`Estudiantes Varones`,`Estudiantes Mujeres`) %>%
+  group_by(Año) %>%
+  summarise(
+    TotalMujeres = sum(`Estudiantes Mujeres`,na.rm = TRUE),
+    TotalVarones = sum(`Estudiantes Varones`,na.rm = TRUE)
+  ) 
+```
+## Tasa anual de mujeres o porcentaje de mujeres
+
+```{r}
+datos <- dataset %>% 
+  select(Año,`Estudiantes Varones`,`Estudiantes Mujeres`) %>%
+  group_by(Año) %>%
+  summarise(
+    TotalMujeres = sum(`Estudiantes Mujeres`,na.rm = TRUE),
+    TotalVarones = sum(`Estudiantes Varones`,na.rm = TRUE)
+  ) %>%
+ mutate(tasa = (TotalMujeres /(TotalVarones+TotalMujeres)) * 100 )
+
+print(datos)
+```
+### Gráficos
+
+Puede nuestro procesamiento y limpieza de datos servir para luego mostrar un gráfico al final, ejemplo:
+
+```{r}
+dataset %>% 
+  select(Año,`Estudiantes Varones`,`Estudiantes Mujeres`) %>%
+  group_by(Año) %>%
+  summarise(
+    TotalAnioMujeres = sum(`Estudiantes Mujeres`,na.rm = TRUE),
+    TotalAnioHombres = sum(`Estudiantes Varones`,na.rm = TRUE)
+  ) %>%
+ggplot(aes(Año)) + 
+  geom_line(aes(y = TotalAnioMujeres , colour = "mujeres")) + 
+  geom_line(aes(y = TotalAnioHombres, colour = "hombres"))
+
+```
+
+## Totales mujeres y varones de Mendoza
+
+Dado que el dataset no tenía un campo que indicara provincia o localidad, buscaremos nombres de universidades conocidas en Mendoza. Para ello buscaremos las palabras Cuyo o Mendoza en los campos Institución, por ejemplo.
+
+```{r}
+dataset %>% 
+  select(Año,Institución, `Unidad Académica`,Carrera,Gestión,`Estudiantes Varones`,`Estudiantes Mujeres`) %>%
+  filter(grepl("Mendoza",`Unidad Académica`) | grepl("Mendoza",Institución)| grepl("Cuyo",Institución)) %>%
+  group_by(Año) %>%
+  summarise(
+    TotalAnioMujeres = sum(`Estudiantes Mujeres`,na.rm = TRUE),
+    TotalAnioHombres = sum(`Estudiantes Varones`,na.rm = TRUE)
+  )
+
+```
+# Función gather
+
+```{r}
+
+datos2 <- dataset %>% 
+  select(Año,`Estudiantes Varones`,`Estudiantes Mujeres`) %>%
+  group_by(Año) %>%
+  summarise(
+    TotalAnioMujeres = sum(`Estudiantes Mujeres`,na.rm = TRUE),
+    TotalAnioHombres = sum(`Estudiantes Varones`,na.rm = TRUE)
+  ) %>%
+ gather(key = genero, value = measurement,
+       TotalAnioHombres,TotalAnioMujeres ) 
+
+print(datos2)
+```
+Gráfico barras totales hombres y mujeres estudiantes por año
+```{r}
+datos2  %>% 
+ggplot( aes(x=Año, y=measurement, fill=genero)) +
+  geom_bar(stat='identity', position='dodge')
+```
+# Ranking de instituciones con más mujeres
+```{r}
+dataset %>% 
+  select(Año,Institución, `Estudiantes Varones`,`Estudiantes Mujeres`) %>%
+  group_by(Institución) %>%
+  summarise(
+    Total.Mujeres = sum(`Estudiantes Mujeres`,na.rm = TRUE),
+    Total.Hombres = sum(`Estudiantes Varones`,na.rm = TRUE)
+  ) %>%
+  arrange(desc(Total.Mujeres)) # ordenar de mayor cantidad a menor cantidad
+```
+# Instituciones con menos mujeres
+
+```{r}
+dataset %>% 
+  select(Año,Institución, `Estudiantes Varones`,`Estudiantes Mujeres`) %>%
+  group_by(Institución) %>%
+  summarise(
+    Total.Mujeres = sum(`Estudiantes Mujeres`,na.rm = TRUE),
+    Total.Hombres = sum(`Estudiantes Varones`,na.rm = TRUE)
+  ) %>%
+  arrange(Total.Mujeres)  %>% # ordenar de mayor cantidad a menor cantidad
+  head()
+```
+# Porcentaje de graduadas mujeres anualmente
+```{r}
+colnames(dataset)
+```
+
+```{r}
+dataset %>% 
+  select(Año,Institución, `Unidad Académica`,Carrera,Gestión,`Total de Egresados`,`Egresados Mujeres`) %>%
+  group_by(Año) %>%
+  summarise(
+    TasaGraduacion = sum(`Egresados Mujeres`)/sum(`Total de Egresados`)
+  )
+
+```
+## Mujeres graduadas por Institucion
+
+¿En qué año/Institución/etc. hubo un máximo de mujeres graduadas?
+
+```{r}
+dataset %>% 
+  select(Año,Institución, `Unidad Académica`,Carrera,Gestión,`Total de Egresados`,`Egresados Mujeres`) %>%
+  arrange( desc(`Egresados Mujeres` ))
+
+```
+# Otras actividades 
+
+* Asignar a los NA el valor 0 (cero), pues en muchos casos no hay nada en esa celda pero es porque el total eran solamente varones
+
+```{r}
+# Incluye tu script aquí
+# Puedes crear tantos bloques de código como quieras
+```
+
