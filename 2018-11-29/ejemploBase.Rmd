@@ -1,0 +1,89 @@
+---
+title: "base"
+author: "Ana Diedrichs"
+date: "November 26, 2018"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
+```
+
+## R Markdown
+
+Este es un documento R Markdown. Markdown es una sintaxis simple de formatos para documentos HTML, PDF, and MS Word. Para más detalles sobre su uso visite [http://rmarkdown.rstudio.com](este sitio). También puede encontrar más información en el [libro de R Markdown](https://bookdown.org/yihui/rmarkdown/)
+
+Una lista o machete resumido de las opciones se puede visualizar [en esta página](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+Si Ud. hace click en el botón **Knit**, cuyo logo es un ovillo de lana y una aguja de tejer, se generará contenido como las salidas del código embebido en R dentro del documento.
+
+Puede embeber código R en el documento usando un bloque como el siguiente caso:
+
+```{r }
+x = 10
+y <- 9
+x + y
+```
+
+También se puede incluir y mostrar gráficos, por ejemplo:
+
+```{r cars, echo=FALSE}
+plot(cars$dist,cars$speed)
+```
+
+Note que la opción `echo = FALSE` fue añadida para evitar mostrar el código R que genera el plot, aunque el mismo es ejecutado y por lo tanto Ud. visualiza el gráfico.
+## Carga de datos
+
+Para este ejemplo sencillo usamos un dataset que ya viene en R y se llama *cars*. 
+```{r}
+data(cars)
+```
+
+Nos muestra la velocidad y distancia recorrida por un (varios?) vehículos.
+
+```{r}
+cars
+```
+
+## Manipulación o filtrado
+
+```{r}
+suppressMessages( library(tidyverse))
+```
+
+Ejemplo: observar velocidad mayor a 20 y distancia mayor a un valor.
+```{r}
+cars %>% filter(speed > 20 )
+```
+
+```{r}
+cars %>% filter(speed > 20 & dist > 100)
+```
+
+## Visualización
+```{r}
+plot(cars)
+```
+
+
+## Modelado
+
+```{r}
+model <- lm(speed~dist, cars)
+
+summary(model)
+```
+
+```{r}
+summary(model)$r.squared
+```
+
+```{r}
+plot(cars)
+abline(lm(dist~speed, cars))
+```
+
+
+
+## Conclusiones
+
