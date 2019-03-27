@@ -11,8 +11,11 @@ Objetivos:
 
 
 [Slides online ](https://docs.google.com/presentation/d/1mh-PcbPN98PkExCrMKAnV8MYBlBWjDUglQFUB0NODfo/edit?usp=sharing) 
+
 [PDF](R-Ladies-tercer-meetup-Diedrichs-intro.pdf)
+
 [R script ejemplo base](ejemplo.R)
+
 [Rmarkdown notebook ejemplo base](ejemploBase.Rmd)
 
 Ana Laura Diedrichs, twitter @anadiedrichs
