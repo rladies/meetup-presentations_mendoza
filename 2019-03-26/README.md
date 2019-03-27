@@ -11,9 +11,13 @@ Objetivos:
 
 
 [Slides online ](https://docs.google.com/presentation/d/17cmt6ydoq74hgd83H7dKTdqZNZdvHaxDUUbmQxDXBYk/edit?usp=sharing) 
+
 [PDF](R-Ladies-cuarto-meetup-tidyverse-dplyr.pdf)
+
 [dataset](Todas.las.carreras27032018.csv)
+
 [R script using dplyr](mujeres-programadoras.R)
+
 [Rmarkdown notebook using dplyr](mujeres2.Rmd)
 
 Ana Laura Diedrichs, twitter @anadiedrichs
