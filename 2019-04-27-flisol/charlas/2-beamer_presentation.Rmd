@@ -1,0 +1,120 @@
+---
+title: "R Markdown"
+author: "Amalia S. Haye"
+date: "27 de abril de 2019"
+output:
+  beamer_presentation:
+    colortheme: dolphin
+    fonttheme: structurebold
+    theme: Warsaw
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+## R Markdown
+```{r Loadpackages, include=FALSE}
+library(cowplot)
+library(ggplot2)
+library(dplyr)
+library(data.table)
+library(datasets)
+library(stats)
+library(readxl)
+library(psych)
+library(xtable)
+options(xtable.floating=FALSE)
+options(xtable.timestamp="")
+options(xtable.comment=FALSE)
+```
+
+R Markdown es un paquete que combina el lenguaje R con Markdown, permitiendo ejecutar el código R simultáneamente con texto, convirtiéndolo en posibles formatos tales como HTML; MS Word; PDF y Beamer.
+
+Requiere de la instalación del paquete rmarkdown.
+
+## Componentes
+
+- YAML
+- Cuerpo del texto
+- Código Chunk
+
+## Ejemplos:
+Utilizaremos el paquete datasets, que contiene archivos con datos para trabajar en R. Por ejemplo la tabla de datos de estatura y peso de mujeres entre 30 y 39 años de edad que es un *`r class(women)`*. Para conocer las variables que contiene el archivo utilizamos el comando *names()*.
+
+```{r "women",echo=TRUE,eval=TRUE}
+mujeres<-women
+names(mujeres)
+```
+```{r}
+mean(mujeres$peso)
+```
+
+## Cambio de unidades
+Las unidades son: para peso: libras; y para estatura: pulgadas. Vamos a convertirlas a kilogramos y a centímetros:
+
+```{r echo=TRUE, eval=TRUE}
+peso<-mujeres$weight*0.4536
+estatura<-mujeres$height*2.54
+names(mujeres)<-c("peso","estatura")
+head(mujeres,2)
+```
+
+## Gráficos
+```{r plot, fig.height=5}
+plot(mujeres, main="Datos de mujeres",xlab="peso (Kg)",ylab="estatura (cm)")
+
+```
+
+## Escribir con código en línea:
+
+El peso promedio de las mujeres es `r mean(mujeres$peso)`; mientras que la estatura promedio es `r round(mean(mujeres$estatura),2)`.
+Podríamos pedir un resumen de los datos:
+```{r}
+knitr::kable(mujeres, caption = 'Datos de mujeres')
+```
+
+## Cinco números
+Con el comando _fivenum()_ obtenemos los cinco números de Tukey: mínimo; cuartiles, máximo
+```{r echo=TRUE, eval=TRUE}
+fivenum(mujeres$peso)
+
+```
+## Boxplot del peso de las mujeres:
+```{r echo=TRUE, eval=TRUE}
+boxplot(mujeres$peso,col="orange")
+```
+
+## Test de Kruskal-Wallis
+```{r}
+# data(airquality)
+kruskal.test(Ozone ~ Month, data = airquality)
+```
+Nos muestra que el parámetro de ubicación de la distribución del Ozono varía significativamente de mes a mes. Finalmente incluimos un boxplot de los datos:
+
+
+## Boxplots de Ozono
+```{r, fig.height=4, fig.width=4}
+boxplot(Ozone ~ Month, data=airquality,col=rainbow(5))
+```
+
+## Código R-Matrices
+
+```{r echo=TRUE, eval=TRUE}
+# Creación de matrices y operaciones con ellas:
+A=matrix(c(1,2,3,4,5,6), byrow=TRUE,nrow=2)   # La matriz se rellena por filas
+A                                             # Mostramos la matriz A
+B=matrix(c(1,3,5,7,9,11), nrow=2)             # La matriz se rellena por columnas
+B                                             # Mostramos la matriz B
+t(A)                                          # Matriz traspuesta
+A+B                                           # Suma de matrices
+A*B                                           # Matrices multiplicadas término a término
+A %*% t(B)                                       # Producto de matrices
+
+```
+
+
+[link](www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/20-Rmarkdown.html)
+
+
+
+
