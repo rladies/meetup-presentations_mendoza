@@ -1,0 +1,115 @@
+---
+title: "Resumen"
+author: "Ana Laura Diedrichs"
+date: "6/6/2019"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Resumen de los datos
+
+Para saber cuántas variables hay en el dataset y características de las mismas.
+
+## Métodos base
+
+### Resumen
+Podemos dentro de Rmarkdown en el texto mezclar código. 
+El dataset *iris* tiene `r ncol(iris)` variables y `r nrow(iris)` observaciones.
+
+La variable de clase o etiqueta se llama `r colnames(iris)[5]`. Las otras variables son: `r colnames(iris)[-5]`
+
+El siguiente es el método básico para saber sobre la distribución de las variables 
+
+```{r}
+summary(iris)
+```
+
+Ver también los tipos de datos
+
+```{r}
+str(iris)
+```
+Veamos otro dataset con valores perdidos
+```{r}
+library(MASS)
+summary(airquality)
+```
+### Correlaciones
+
+```{r}
+cor(airquality)
+```
+```{r}
+round(cor(na.omit(airquality)),2)
+
+```
+
+Lo mismo que arriba pero usando el pipe `%>%`
+
+```{r}
+library(magrittr)
+airquality %>% 
+  na.omit() %>%
+  cor() %>%
+  round(2)
+```
+
+## Métodos del paquete DataExplorer
+
+### Resumen
+
+```{r}
+library(DataExplorer)
+```
+
+```{r}
+t(introduce(airquality))
+```
+```{r}
+profile_missing(airquality)
+```
+
+Pruebe en consola llamar a `create_report(nombreDelDataset)` y la librería DataExplorer le generará un reporte de sus datos.
+
+Llamamos a los mismos métodos con los que se crea el reporte para extraer algunos gráficos.
+
+```{r}
+plot_intro(airquality)
+```
+
+```{r}
+plot_missing(airquality)
+```
+
+### Correlaciones
+
+```{r}
+plot_correlation(iris)
+```
+```{r}
+plot_correlation(na.omit(airquality))
+```
+### Distribución de los valores de las variables
+
+```{r}
+plot_boxplot(airquality,by="Month")
+```
+
+```{r}
+library(ggplot2)
+plot_histogram(iris,ggtheme=theme_minimal())
+# mas de ggtheme en https://ggplot2.tidyverse.org/reference/ggtheme.html
+```
+
+```{r}
+plot_density(iris)
+```
+

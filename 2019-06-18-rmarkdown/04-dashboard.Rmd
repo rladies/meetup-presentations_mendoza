@@ -1,0 +1,102 @@
+---
+title: "Gapminder dataset"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+
+suppressMessages(library(tidyverse))
+library(gapminder)
+datos <- gapminder_unfiltered
+library(dplyr)
+library(ggplot2)
+library(plotly)
+```
+
+Global
+=======================================================================
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+### PBI en el tiempo por continente
+
+```{r}
+by_year_continent <- gapminder %>%
+  group_by(continent, year) %>%
+  summarize(medianGdpPercap = median(gdpPercap))
+
+# Plot the change in medianGdpPercap in each continent over time
+ggplot(by_year_continent, aes(x = year, y = medianGdpPercap, color = continent)) +
+  geom_point() +
+  expand_limits(y = 0)
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Esperanza de vida promedio
+
+```{r}
+
+by_year <- gapminder %>%
+  group_by(year) %>%
+  summarize(medianLifeExp = median(lifeExp),
+            maxGdpPercap = max(gdpPercap))
+
+# Create a scatter plot showing the change in medianLifeExp over time
+g <- ggplot(by_year, aes(x = year, y = medianLifeExp)) +
+  geom_point() +
+  expand_limits(y = 0)
+ggplotly(g)
+```
+
+### Expectativa de vida vs Producto bruto interno, por continente.
+
+```{r}
+by_continent_2007 <- gapminder %>%
+  filter(year == 2007) %>%
+  group_by(continent) %>%
+  summarize(medianGdpPercap = median(gdpPercap),
+            medianLifeExp = median(lifeExp))
+
+# Use a scatter plot to compare the median GDP and median life expectancy
+g <- ggplot(by_continent_2007, aes(x = medianGdpPercap, y = medianLifeExp, color = continent)) +
+  geom_point()
+ggplotly(g)
+```
+
+Argentina y países limítrofes
+=======================================================================
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+
+```{r}
+paises <- c("Argentina","Chile","Uruguay","Bolivia","Paraguay","Brasil")
+```
+
+```{r, eval= FALSE}
+# para saber cuales paises están.
+gapminder %>%
+  group_by(country) %>%
+  select(country) %>%
+  distinct()
+```
+
+```{r}
+data <- gapminder %>% 
+  filter(country %in% paises & year == 2007)
+
+g <- ggplot(data, aes(x = lifeExp, y = gdpPercap, color = country)) +
+  geom_point()
+ggplotly(g)
+```
+
+### Agregue los bloques de código que procesen el dataset y muestren los gráficos que crea conveniente.

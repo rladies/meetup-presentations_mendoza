@@ -1,0 +1,87 @@
+---
+title: "R Markdown"
+author: "Amalia S. Haye"
+date: "18 de junio de 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+## R Markdown
+```{r Loadpackages, include=FALSE}
+library(cowplot)
+library(ggplot2)
+library(dplyr)
+library(data.table)
+library(datasets)
+library(stats)
+library(readxl)
+library(psych)
+library(xtable)
+options(xtable.floating=FALSE)
+options(xtable.timestamp="")
+options(xtable.comment=FALSE)
+```
+
+R Markdown es un paquete que combina el lenguaje R con Markdown, permitiendo ejecutar el código R simultáneamente con texto, convirtiéndolo en posibles formatos tales como HTML; MS Word; PDF y Beamer.
+
+Requiere de la instalación del paquete rmarkdown.
+
+## Componentes
+
+- YAML
+- Cuerpo del texto
+- Código Chunk
+
+## Ejemplos:
+Utilizaremos el paquete datasets, que contiene archivos con datos para trabajar en R. Por ejemplo la tabla de datos de estatura y peso de mujeres entre 30 y 39 años de edad que es un *`r class(women)`*. Para conocer las variables que contiene el archivo utilizamos el comando *names()*.
+
+```{r "women",echo=TRUE,eval=TRUE}
+mujeres<-women
+names(mujeres)
+```
+```{r "mujeres"}
+mean(mujeres$weight)
+```
+
+## Cambio de unidades
+Las unidades son: para peso: libras; y para estatura: pulgadas. Vamos a convertirlas a kilogramos y a centímetros:
+
+```{r echo=TRUE, eval=TRUE}
+peso<-mujeres$weight*0.4536
+estatura<-mujeres$height*2.54
+names(mujeres)<-c("peso","estatura")
+head(mujeres,2)
+```
+
+## Gráficos
+```{r plot, fig.height=5}
+plot(mujeres, main="Datos de mujeres",xlab="peso (Kg)",ylab="estatura (cm)")
+
+```
+
+## Escribir con código en línea:
+
+El peso promedio de las mujeres es `r mean(mujeres$peso)`; mientras que la estatura promedio es `r round(mean(mujeres$estatura),2)`.
+Podríamos pedir un resumen de los datos:
+```{r}
+knitr::kable(mujeres, caption = 'Datos de mujeres')
+```
+
+## Cinco números
+Con el comando _fivenum()_ obtenemos los cinco números de Tukey: mínimo; cuartiles, máximo
+```{r echo=TRUE, eval=TRUE}
+fivenum(mujeres$peso)
+
+```
+## Boxplot del peso de las mujeres:
+```{r echo=TRUE, eval=TRUE}
+boxplot(mujeres$peso,col="orange")
+```
+
+[link](www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/20-Rmarkdown.html)
+
+
+
+

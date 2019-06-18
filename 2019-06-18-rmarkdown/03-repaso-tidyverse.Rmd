@@ -1,0 +1,173 @@
+---
+title: "Repasando tidyverse - R-Ladies Mendoza Meetup"
+author: "Ana Diedrichs"
+date: "June 10, 2019"
+output: 
+  html_document:
+    code_download: true
+    toc: true
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo = FALSE} 
+suppressMessages(library(tidyverse))
+library(gapminder)
+datos <- gapminder_unfiltered
+```
+
+# Dataset
+
+El dataset presenta `r ncol(gapminder)` variables llamadas `r colnames(gapminder)`
+
+```{r}
+summary(datos)
+```
+
+## Valores únicos posibles
+Valores de year
+```{r}
+unique(datos$year)
+```
+
+## Valores perdidos
+
+Observamos que no hay valores perdidos.
+```{r}
+library(DataExplorer)
+t(introduce(datos))
+
+```
+## Histograma por variable
+```{r}
+plot_histogram(datos)
+```
+
+## Chusmeamos los datos: valores agregados
+
+Agregar la mediana de esperanza de vida por continente, usando la función base aggregate.
+
+```{r}
+aggregate(lifeExp ~ continent, datos, median)
+```
+
+Agregar el promedio de esperanza de vida por continente
+```{r}
+aggregate(lifeExp ~ continent, datos, mean)
+```
+
+## Otro ejemplo de valores agregados
+
+```{r}
+datos %>%
+  filter(continent=="Americas") %>% # sólo datos de America
+  select(country,lifeExp) %>% # columnas que elijo
+  group_by(country) %>% # agrupados por país
+  summarize(median_lifeExp = median(lifeExp, na.rm = TRUE)) %>%
+  arrange(median_lifeExp) # ordena
+```
+
+## Otro ejemplo de valores agregados
+
+¿Qué cambió aquí?
+```{r}
+datos %>%
+  filter(continent=="Americas") %>% # sólo datos de America
+  select(country,lifeExp) %>% # columnas que elijo
+  group_by(country) %>% # agrupados por país
+  summarize(median_lifeExp = median(lifeExp, na.rm = TRUE)) %>%
+  arrange(desc(median_lifeExp)) # ordena
+```
+
+## Top 5 de países con más gdpPercap en promedio de todos los años
+
+```{r}
+d <- datos %>%
+  select(country,gdpPercap) %>% # columnas que elijo
+  group_by(country) %>% # agrupados por país
+  summarize(gdpAvg = mean(gdpPercap, na.rm = TRUE)) %>%
+  arrange(desc(gdpAvg)) %>% # ordena
+  top_n(5)
+
+
+d
+```
+```{r}
+ggplot(d,mapping=aes(country,gdpAvg)) + geom_col()
+```
+
+## Top 10 de países con menor esperanza de vida en el año 2000
+```{r,eval=FALSE}
+datos %>% distinct(year)
+```
+
+```{r}
+datos %>%
+  filter(year == 2000)%>%
+  select(country,lifeExp) %>% # columnas que elijo
+  arrange(lifeExp) %>% # ordena
+  top_n(-10) # las 10 menores
+```
+
+## Años de datos de Uruguay
+
+```{r}
+datos %>%
+  filter(country == "Uruguay") %>%
+  # disctint(year) %>% # si se repitiera el año
+  select(year)
+```
+
+## Paises que tienen datos en el año 2000 o 2007
+
+```{r}
+datos %>%
+  filter(year %in% c(2000, 2007)) %>%
+  select(country) %>%
+  distinct(country)
+```
+
+# Actividades
+
+Agregue los bloques de código que respondan las siguientes consultas.
+
+## Paises con menor PBI per cápita en promedio, top 10.
+```{r}
+
+```
+
+## Esperanza de vida en África en promedio para cada año.
+```{r}
+
+```
+
+## Población, PBI per cápita, esperanza de vida en Argentina para cada año.
+
+```{r}
+arg <- 
+  datos %>%
+  filter(country == "Argentina") %>%
+  select(year,pop,lifeExp,gdpPercap) %>%
+  arrange(year)
+
+arg
+```
+
+¿Qué se grafica abajo?
+
+```{r}
+ggplot(data=arg,aes(x=year,y=lifeExp)) + 
+  geom_line() +
+  geom_point() +
+  labs(title="Titulo",x="year",y="lifeExp")
+```
+
+
+## ¿Qué otras consultas se le ocurre? ¡Comparta!
+ 
+ 

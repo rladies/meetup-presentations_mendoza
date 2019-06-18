@@ -1,0 +1,124 @@
+---
+title: "Intro a Rmarkdown"
+author: "Ponga su nombre aqui"
+date: "November 26, 2018"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
+```
+
+## R Markdown
+
+Este es un documento R Markdown. Markdown es una sintaxis simple de formatos para documentos HTML, PDF, and MS Word. Para más detalles sobre su uso visite [http://rmarkdown.rstudio.com](este sitio). También puede encontrar más información en el [libro de R Markdown](https://bookdown.org/yihui/rmarkdown/)
+
+Una lista o machete resumido de las opciones se puede visualizar [en esta página](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+Si Ud. hace click en el botón **Knit**, cuyo logo es un ovillo de lana y una aguja de tejer, se generará contenido como las salidas del código embebido en R dentro del documento.
+
+Puede embeber código R en el documento usando un bloque como el siguiente caso:
+
+```{r }
+x = 10
+y <- 9
+x + y
+```
+Para incluir un bloque de código click en el botón Insert -> R
+
+También se puede incluir y mostrar gráficos, por ejemplo:
+
+```{r cars, echo=FALSE}
+plot(cars$dist,cars$speed)
+```
+
+Note que la opción `echo = FALSE` fue añadida para evitar mostrar el código R que genera el plot, aunque el mismo es ejecutado y por lo tanto Ud. visualiza el gráfico.
+## Carga de datos
+
+Para este ejemplo sencillo usamos un dataset que ya viene en R y se llama *cars*. 
+```{r}
+data(cars)
+```
+
+Para saber más del dataset tipee en la consola `?cars` para ver la ayuda.
+
+Nos muestra la velocidad y distancia recorrida por un (varios?) vehículos.
+
+```{r}
+cars
+```
+
+## Manipulación o filtrado
+
+Para procesar los datos usaremos el paquete [dplyr](https://dplyr.tidyverse.org/)
+y puedes descargar [la hoja resumen de comandos](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) para tenerla a mano.
+```{r}
+suppressMessages( library(tidyverse))
+```
+
+Ejemplo: observar velocidad mayor a 20 y distancia mayor a un valor.
+```{r}
+cars %>% filter(speed > 20 )
+```
+
+Escriba aquí que interpreta que realiza el siguiente bloque de código.
+
+```{r}
+cars %>% filter(speed > 10 & dist > 50 )
+```
+
+## Visualización
+```{r}
+plot(cars)
+```
+
+
+## Modelado
+
+```{r}
+model <- lm(speed~dist, cars)
+
+summary(model)
+```
+
+```{r}
+summary(model)$r.squared
+```
+
+```{r}
+plot(cars)
+abline(lm(dist~speed, cars))
+```
+
+## Conclusiones
+
+Escriba sus notas, comentarios y conclusiones.
+
+## Actividades
+
+1.  Coloque su nombre y fecha donde dice `author` y `date`
+2. Incluya un bloque de código donde consulte por las observaciones donde speed sea menor a 10 millas por hora.
+3. Incluya un bloque de código donde muestre la media de speed y dist.
+
+4. Trabajando con documento html.
+
+* Cambie la salida del documento a  `output: html_document`
+Agregue en la cabecera YAML, al inicio de este documento, entre las líneas --- 
+la opción para que muestre o agregue una tabla de contenidos o índice (`toc: true`).
+Lea y pruebe [en este documento](https://bookdown.org/yihui/rmarkdown/html-document.html#table-of-contents) distintas opciones para configurar la Tabla de contenidos.
+
+5. Fórmulas
+
+Escriba la fórmula del modelo lineal `lm(dist~speed, cars)` en formato latex en el apartado de modelado. La fórmula va encerrada entre signos pesos. 
+Ejemplo de una fórmula : $a \beta + b$
+
+6. Gráficos
+
+En el siguiente bloque de código crea un histograma de la variable _speed_, modifique el parámetro breaks. También modifique otros parámetros del gráfico si lo desea como título y texto de ejes.
+
+Para más información de la función hist, tipee en la ayuda ?hist.
+
+```{r}
+hist(cars$speed, breaks = 6, main="Titulo del grafico",xlab="titulo eje x")
+```
+
