@@ -1,0 +1,108 @@
+---
+title: "R-Ladies meetup: Rmarkdown"
+author: "mendoza@rladies.org"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  beamer_presentation:
+    theme: RLadies
+    fonttheme: "professionalfonts"
+    slide_level: 2
+    toc: true
+    includes:
+     #in_header: header.tex Uncomment if you need to use some specific packages and put in this file
+header-includes:
+   - \city{Mendoza}
+---
+# Intro
+
+## Nos presentamos
+
+* Brenda Canizo
+* Jan Strappa
+* Ana Laura Diedrichs
+* Amalia Haye
+
+## Ciclo de datos 
+
+* Importar -> Ordenar / Limpiar -> Transformar -> Modelar -> Visualiziar -> ¡COMUNICAR!
+
+![Ciclo de ciencia de datos](data-science.png)
+
+* Analizar, compartir y reproducir.
+
+# Rmarkdown
+
+## ¿Qué es Rmarkdown?
+
+* Escribimos texto, código, y metadata en un mismo documento, en formato Rmarkdown
+* Soporta varios formatos de salida.
+
+![Rmarkdown](introRmarkdown.png)
+
+## Rmarkdown proceso: el tejido
+
+![Rmarkdown](rmarkdownflow.png)
+
+## Recursos para aprender Rmarkdown
+
+* [INtro a R en español](http://www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/)
+* [R para ciencia de datos, capítulo Rmarkdown](https://es.r4ds.hadley.nz/r-markdown.html)
+* Referencia de RMarkdown (pdf en docs)
+* _Cheatsheet_ u Hoja resumen de comandos de Rmarkdown (pdf en carpeta docs)
+
+# Presentaciones con Rmarkdown
+
+## Presentaciones con Rmarkdown
+
+Vamos a trabajar con el archivo 01-Taller.Rmd, expone Lic. Amalia Haye.
+
+# Documentos salidas HTML 
+
+## Salida HTML
+
+* Podemos publicar nuestros análisis de datos de forma pública en [Rpubs](http://rpubs.com/)
+* Crea una cuenta en ese sitio y desde Rstudio podrás publicar tu documento HTML.
+* Un ejemplo es el trabajo de [Natsumi Shokida](https://rpubs.com/natsumi_shokida/tercer_trim_2018)
+* Observa que puedes bajar el código de dicho documento para reproducirlo :-D
+
+## Otros documentos con salida HTML
+
+Por dónde empiezo?
+
+  * Archivo 01-Taller.Rmd
+  * Vea el archivo 02-ciclo-datos.Rmd
+
+El resto, además de lo anterior:
+
+  * 03-repaso-tidyverse.Rmd
+
+## Dashboard / Storyboard
+
+* Vamos a trabajar con el archivo 04-dashboard.Rmd.
+* Más info de flexdashboard [en su sitio web](https://rmarkdown.rstudio.com/flexdashboard/)
+
+## ¿Qué más podemos hacer con Rmarkdown?
+
+* _Papers_ para conferencias o revistas científicas internacionales (*rticles*)
+* LIbros https://bookdown.org
+* Sitios web https://bookdown.org/yihui/blogdown/
+* Documentar paquetes en R
+
+## Material R-Ladies Mendoza 
+
+* Repositorio GitHub material meetups
+
+https://github.com/rladies/meetup-presentations_mendoza
+
+* Twitter
+* Facebook
+* EMail mendoza@rladies.org
+
+## Finalizando
+
+> \textbf{\huge\color{rladiespurple}{{Gracias por su atención}}}
+> \textbf{\huge\color{rladiespurple}{{¿Preguntas o ideas?}}}
+
+
+
+
